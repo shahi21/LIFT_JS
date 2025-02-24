@@ -54,7 +54,6 @@ button{
     transition: bottom 2s ease-in-out;
     position: absolute;
     bottom: 0;
-    transition: bottom 2s ease-in-out;
     display: flex;
     align-items: center;
     justify-content: center;
