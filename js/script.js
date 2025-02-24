@@ -90,5 +90,5 @@ function openDoors(lift) {
 }
 
 function closeDoors(lift) {
-    lift.style.backgroundColor = "steelblue";
+    lift.style.backgroundColor = "black";
 }
