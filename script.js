@@ -14,7 +14,7 @@ function callLift(requestedFloor) {
 
     let selectedLift, liftId, liftPosition, isMoving;
 
-    // Assign the nearest available lift
+    
     if (distanceLift1 <= distanceLift2 && !isLift1Moving) {
         selectedLift = lift1;
         liftPosition = lift1Position;
@@ -30,17 +30,15 @@ function callLift(requestedFloor) {
         return;
     }
 
-    // Prevent another call while the lift is moving
+   
     if (isMoving === "isLift1Moving") isLift1Moving = true;
     if (isMoving === "isLift2Moving") isLift2Moving = true;
 
     let floorHeight = document.querySelector(".floor").clientHeight;
     selectedLift.style.bottom = requestedFloor * floorHeight + "px";
 
-    // Show message about which lift is moving
     messageBox.innerText = `${liftId} is coming to Floor ${requestedFloor}...`;
 
-    // Update lift position after transition completes
     setTimeout(() => {
         if (liftId === "Lift 1") {
             lift1Position = requestedFloor;
@@ -50,7 +48,7 @@ function callLift(requestedFloor) {
             isLift2Moving = false;
         }
 
-        // Update message when lift arrives
+       
         messageBox.innerText = `${liftId} has arrived at Floor ${requestedFloor}`;
-    }, 2000); // Adjust timeout based on CSS transition duration
+    }, 1500); 
 }
