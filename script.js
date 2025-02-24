@@ -50,5 +50,5 @@ function callLift(requestedFloor) {
 
        
         messageBox.innerText = `${liftId} has arrived at Floor ${requestedFloor}`;
-    }, 1500); 
+    }, 1000); 
 }
