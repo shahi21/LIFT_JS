@@ -1,68 +1,59 @@
- body{
-    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+body {
+    font-family: Arial, sans-serif;
     text-align: center;
 }
-
-.building{
+.building {
     display: flex;
-    justify-content: center;
-    position: relative;
-    width: 200px;
-    height: 750px;
-    border: 3px solid black;
-    background-color: #f0f0f0;
+    flex-direction: column-reverse;
+    align-items: center;
+    width: 300px;
     margin: 20px auto;
-    overflow: hidden;
-}
-.floors {
-    position: absolute;
-    width: 100%;
-}
-
-.floor{
-    height: 100px;
-    border-bottom: 2px solid rgb(8, 8, 8);
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    font-size: 18px;
-    background: #bedbeb;
     position: relative;
-
+    border: 2px solid black;
+    padding: 10px;
+    background-color: #f0f0f0;
+    height: 720px;
+    overflow: hidden;
+    position: relative;
 }
-
-button{
-    
-    font-size: 14px;
-    cursor: pointer;
-    margin: 4px;
-    
-}
-
-.lift-container{
-    position: absolute;
-    bottom: 0;
-    left: 20px;
+.floor {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     width: 100%;
-    display: flex;
-    justify-content: space-around;
+    border: 2px solid black;
+    padding: 15px;
+    position: relative;
+    height: 120px;
+    background-color: white;
 }
- .lift{
-    width: 40px;
-    height: 50px;
-    background-color: steelblue;
-    transition: bottom 2s ease-in-out;
-    position: absolute;
-    bottom: 0;
+.buttons {
     display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+}
+.lift {
+    width: 70px;
+    height: 110px;
+    background: gray;
+    position: absolute;
+    left: 70px;
+    bottom: 0;
+    transition: transform 2.5s ease-in-out, background-color 0.5s;
+    display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    color: white;
-    font-weight: bold;
-    border-radius: 5px;
-} 
-
-#lift1{
-    left: 20px;
+    border: 2px solid black;
 }
-
+.lift.open {
+    background-color: green;
+}
+.lift.closed {
+    background-color: red;
+}
+.inside-buttons {
+    display: flex;
+    flex-direction: column;
+    margin-top: 5px;
+}

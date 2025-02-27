@@ -1,94 +1,75 @@
+const floors = 6; 
 let lift1Position = 0;
-let lift2Position = 3;
-let isLift1Moving = false;
-let isLift2Moving = false;
-let lift1Queue = [];
-let lift2Queue = [];
+let lift2Position = 0;
+let lift1Moving = false;
+let lift2Moving = false;
+const floorHeight = 120;
 
-function callLift(requestedFloor) {
-    let lift1 = document.getElementById("lift1");
-    let lift2 = document.getElementById("lift2");
-    let messageBox = document.getElementById("messageBox");
-
-    let distanceLift1 = Math.abs(requestedFloor - lift1Position);
-    let distanceLift2 = Math.abs(requestedFloor - lift2Position);
-
-    let selectedLift, liftId, liftQueue, liftPosition;
-
-   
-    if (distanceLift1 <= distanceLift2 && !isLift1Moving) {
-        selectedLift = lift1;
-        liftQueue = lift1Queue;
-        liftId = "Lift 1";
-        liftPosition = lift1Position;
-        isLift1Moving = true;
-    } else if (!isLift2Moving) {
-        selectedLift = lift2;
-        liftQueue = lift2Queue;
-        liftId = "Lift 2";
-        liftPosition = lift2Position;
-        isLift2Moving = true;
-    } else {
-      
-        if (distanceLift1 < distanceLift2 && !lift1Queue.includes(requestedFloor)) {
-            lift1Queue.push(requestedFloor);
-        } else if (!lift2Queue.includes(requestedFloor)) {
-            lift2Queue.push(requestedFloor);
-        }
-        messageBox.innerText = "Both lifts are currently moving. Added to queue.";
-        return;
+function createBuilding() {
+    const building = document.getElementById('building');
+    for (let i = 0; i < floors; i++) {
+        const floor = document.createElement('div');
+        floor.classList.add('floor');
+        floor.innerHTML = `
+            Floor ${i}
+            <div class="buttons">
+                <button onclick="requestLift(${i})">Call</button>
+            </div>
+        `;
+        building.appendChild(floor);
     }
+    
+    createLifts(building);
+}
 
-    let floorHeight = document.querySelector(".floor").clientHeight ; 
-    let travelTime = Math.abs(requestedFloor - liftPosition) * 1000; 
+function createLifts(building) {
+    for (let i = 1; i <= 2; i++) {
+        const lift = document.createElement('div');
+        lift.classList.add('lift', 'closed');
+        lift.id = `lift${i}`;
+        lift.style.left = i === 1 ? '70px' : '140px';
+        lift.style.bottom = '0px';
+        lift.innerHTML = createInsideButtons(i);
+        building.appendChild(lift);
+    }
+}
 
-   
-    selectedLift.style.transition = `bottom ${travelTime / 1000}s ease-in-out`;
-    selectedLift.style.bottom = requestedFloor * floorHeight + "px";
-    messageBox.innerText = `${liftId} is coming to Floor ${requestedFloor}...`;
+function createInsideButtons(liftNumber) {
+    let buttons = '<div class="inside-buttons">';
+    for (let i = 0; i < floors; i++) {
+        buttons += `<button onclick="selectFloor(${liftNumber}, ${i})">${i}</button>`;
+    }
+    buttons += '</div>';
+    return buttons;
+}
 
+function requestLift(requestedFloor) {
+    let lift = selectClosestLift(requestedFloor);
+    moveLift(lift, requestedFloor);
+}
+
+function selectFloor(liftNumber, requestedFloor) {
+    let lift = document.getElementById(`lift${liftNumber}`);
+    moveLift(lift, requestedFloor);
+}
+
+function selectClosestLift(requestedFloor) {
+    let lift1 = document.getElementById('lift1');
+    let lift2 = document.getElementById('lift2');
+    let distance1 = Math.abs(lift1Position - requestedFloor);
+    let distance2 = Math.abs(lift2Position - requestedFloor);
+    return distance1 <= distance2 ? lift1 : lift2;
+}
+
+function moveLift(lift, floor) {
+    if (lift.id === 'lift1') lift1Moving = true;
+    if (lift.id === 'lift2') lift2Moving = true;
+    lift.classList.replace('closed', 'open');
+    lift.style.transform = `translateY(${-floor * floorHeight}px)`;
     setTimeout(() => {
-        openDoors(selectedLift);
-        messageBox.innerText = `${liftId} has arrived at Floor ${requestedFloor}`;
-
-        setTimeout(() => {
-            closeDoors(selectedLift);
-
-           
-            if (liftId === "Lift 1") {
-                lift1Position = requestedFloor;
-                isLift1Moving = false;
-                document.getElementById("lift1Display").innerText = requestedFloor;
-            } else {
-                lift2Position = requestedFloor;
-                isLift2Moving = false;
-                document.getElementById("lift2Display").innerText = requestedFloor;
-            }
-
-        
-            processQueue();
-
-        }, 2000);
-
-    }, travelTime); 
+        lift.classList.replace('open', 'closed');
+        if (lift.id === 'lift1') lift1Moving = false, lift1Position = floor;
+        if (lift.id === 'lift2') lift2Moving = false, lift2Position = floor;
+    }, 2500);
 }
-
-
-function processQueue() {
-    if (!isLift1Moving && lift1Queue.length > 0) {
-        let nextFloor = lift1Queue.shift();
-        callLift(nextFloor,"auto");
-    }
-    if (!isLift2Moving && lift2Queue.length > 0) {
-        let nextFloor = lift2Queue.shift();
-        callLift(nextFloor,"auto");
-    }
-}
-
-function openDoors(lift) {
-    lift.style.backgroundColor = "lightgreen";
-}
-
-function closeDoors(lift) {
-    lift.style.backgroundColor = "black";
-}
+createBuilding();

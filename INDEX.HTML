@@ -1,64 +1,14 @@
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lift System</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <title>Lift Simulation</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-
-    <div class="building">
-        <div class="floors">
-            <div class="floor">
-                Floor 5 
-                <button onclick="callLift(5,'down')">🔽Down</button>
-            </div>
-            <div class="floor">
-                Floor 4 
-                <button onclick="callLift(4,'up')">🔼Up</button>
-                <button onclick="callLift(4,'down')">🔽Down</button>
-
-            </div>
-            <div class="floor">
-                Floor 3 
-                <button onclick="callLift(3,'up')">🔼Up</button>
-                <button onclick="callLift(3,'down')">🔽Down</button>
-            </div>
-            <div class="floor">
-                Floor 2 
-                <button onclick="callLift(2,'up')">🔼Up</button>
-                <button onclick="callLift(2,'down')">🔽Down</button>
-            </div>
-            <div class="floor">
-                Floor 1 
-                <button onclick="callLift(1,'up')">🔼Up</button>
-                <button onclick="callLift(1,'down')">🔽Down</button>
-            </div>
-            <div class="floor">
-                Ground Floor
-                <button onclick="callLift(0,'up')">🔼Up</button>
-
-            </div>
-        </div>
-
-     
-        <div class="lift-container">
-            <div class="lift" id="lift1">
-                <div class="floor-display" id="lift1Display">0</div>
-            </div>
-            <div class="lift" id="lift2">
-                <div class="floor-display" id="lift2Display">0</div>
-            </div>
-        </div>
-    </div>
-
-  
-    <div class="message" id="messageBox">Waiting for a lift...</div>
-
-    <script src="/js/script.js"></script>
+    <h1>Lift Simulation</h1>
+    <div class="building" id="building"></div>
+    <script src="js/script.js"></script>
 </body>
 </html>
