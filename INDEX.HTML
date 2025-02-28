@@ -3,12 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lift Simulation</title>
+    <title>Lift</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <h1>Lift Simulation</h1>
-    <div class="building" id="building"></div>
+    <div class="building" id="building">
+        <!-- FLOORS -->
+        <div class="floor">Floor 0
+            <div class="buttons">
+                <button onclick="requestLift(0)">🔼</button>
+            </div>
+        </div>
+        <div class="floor">Floor 1 
+            <div class="buttons">
+                <button onclick="requestLift(1)">🔼</button>
+                <button onclick="requestLift(1)">🔽</button>
+            </div>
+        </div>
+        <div class="floor">Floor 2 
+            <div class="buttons">
+                <button onclick="requestLift(2)">🔼</button>
+                <button onclick="requestLift(2)">🔽</button>
+            </div>
+        </div>
+        <div class="floor">Floor 3 
+            <div class="buttons">
+                <button onclick="requestLift(3)">🔼</button>
+                <button onclick="requestLift(3)">🔽</button>
+            </div>
+        </div>
+        <div class="floor">Floor 4
+             <div class="buttons">
+                <button onclick="requestLift(4)">🔼</button>
+                <button onclick="requestLift(4)">🔽</button>
+            </div>
+        </div>
+        <div class="floor">Floor 5
+             <div class="buttons">
+                <button onclick="requestLift(5)">🔽</button>
+            </div>
+        </div>
+        <!-- FLOORS END -->
+
+        <!-- LIFTS -->
+         <div class="lift closed" id="lift1">
+            <div class="inside-buttons">
+                <button onclick="selectFloor(1,0)">0</button>
+                <button onclick="selectFloor(1,1)">1</button>
+                <button onclick="selectFloor(1,2)">2</button>
+                <button onclick="selectFloor(1,3)">3</button>
+                <button onclick="selectFloor(1,4)">4</button>
+                <button onclick="selectFloor(1,5)">5</button>
+            </div>
+         </div>
+         <div class="lift closed" id="lift2">
+            <div class="inside-buttons">
+                <button onclick="selectFloor(2, 0)">0</button>
+                <button onclick="selectFloor(2, 1)">1</button>
+                <button onclick="selectFloor(2, 2)">2</button>
+                <button onclick="selectFloor(2, 3)">3</button>
+                <button onclick="selectFloor(2, 4)">4</button>
+                <button onclick="selectFloor(2, 5)">5</button>
+            </div>
+        </div>
+         <!-- LIFTS END -->
+
+    </div>
     <script src="js/script.js"></script>
 </body>
 </html>

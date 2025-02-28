@@ -1,58 +1,74 @@
-body {
-    font-family: Arial, sans-serif;
+body{
+    font-family: 'Courier New', Courier, monospace;
     text-align: center;
+    color: black;
 }
-.building {
+
+.building{
     display: flex;
     flex-direction: column-reverse;
     align-items: center;
-    width: 300px;
-    margin: 20px auto;
+    width: 400px;
+    margin:20px auto;
     position: relative;
     border: 2px solid black;
     padding: 10px;
-    background-color: #f0f0f0;
     height: 720px;
     overflow: hidden;
-    position: relative;
 }
-.floor {
+
+.floor{
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
-    border: 2px solid black;
+    border: 1px solid rgb(184, 224, 227);
     padding: 15px;
     position: relative;
     height: 120px;
     background-color: white;
 }
-.buttons {
+
+.buttons{
     display: flex;
     flex-direction: column;
-    margin-left: 10px;
+    button{
+        border: none;
+        background-color: transparent;
+        font-size: 20px;
+    }
 }
-.lift {
+.buttons button:hover{
+    background-color: #b2daeb;
+}
+
+.lift{
     width: 70px;
-    height: 110px;
-    background: gray;
+    height: 130px;
     position: absolute;
-    left: 70px;
+    left: 85px;
     bottom: 0;
+    background-color: gray;
     transition: transform 2.5s ease-in-out, background-color 0.5s;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    border: 2px solid black;
+    border: 2px solid;
+    border-radius: 8%;
 }
-.lift.open {
+#lift2{
+    left: 50%;
+}
+
+.lift.open{
     background-color: green;
 }
 .lift.closed {
-    background-color: red;
+    background-color: rgb(175, 175, 175);
 }
-.inside-buttons {
+
+.inside-buttons{
     display: flex;
     flex-direction: column;
     margin-top: 5px;

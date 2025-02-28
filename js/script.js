@@ -1,75 +1,94 @@
-const floors = 6; 
-let lift1Position = 0;
-let lift2Position = 0;
-let lift1Moving = false;
-let lift2Moving = false;
+const floors = 6;
+let lift1 = { 
+    position: 0, 
+    moving: false,
+     queue: [], 
+     direction: null, 
+     doorsOpen: false 
+    };
+let lift2 = { 
+    position: 0,
+     moving: false, 
+     queue: [],
+     direction: null, 
+     doorsOpen: false 
+    };
 const floorHeight = 120;
 
-function createBuilding() {
-    const building = document.getElementById('building');
-    for (let i = 0; i < floors; i++) {
-        const floor = document.createElement('div');
-        floor.classList.add('floor');
-        floor.innerHTML = `
-            Floor ${i}
-            <div class="buttons">
-                <button onclick="requestLift(${i})">Call</button>
-            </div>
-        `;
-        building.appendChild(floor);
+function requestLift(requestedFloor, direction) {
+    let lift = selectClosestLift(requestedFloor, direction);
+    if (lift) {
+        lift.queue.push(requestedFloor);
+        processQueue(lift);
     }
-    
-    createLifts(building);
-}
-
-function createLifts(building) {
-    for (let i = 1; i <= 2; i++) {
-        const lift = document.createElement('div');
-        lift.classList.add('lift', 'closed');
-        lift.id = `lift${i}`;
-        lift.style.left = i === 1 ? '70px' : '140px';
-        lift.style.bottom = '0px';
-        lift.innerHTML = createInsideButtons(i);
-        building.appendChild(lift);
-    }
-}
-
-function createInsideButtons(liftNumber) {
-    let buttons = '<div class="inside-buttons">';
-    for (let i = 0; i < floors; i++) {
-        buttons += `<button onclick="selectFloor(${liftNumber}, ${i})">${i}</button>`;
-    }
-    buttons += '</div>';
-    return buttons;
-}
-
-function requestLift(requestedFloor) {
-    let lift = selectClosestLift(requestedFloor);
-    moveLift(lift, requestedFloor);
 }
 
 function selectFloor(liftNumber, requestedFloor) {
-    let lift = document.getElementById(`lift${liftNumber}`);
-    moveLift(lift, requestedFloor);
+    let lift = liftNumber === 1 ? lift1 : lift2;
+    lift.queue.push(requestedFloor);
+    processQueue(lift);
 }
 
-function selectClosestLift(requestedFloor) {
-    let lift1 = document.getElementById('lift1');
-    let lift2 = document.getElementById('lift2');
-    let distance1 = Math.abs(lift1Position - requestedFloor);
-    let distance2 = Math.abs(lift2Position - requestedFloor);
-    return distance1 <= distance2 ? lift1 : lift2;
+function selectClosestLift(requestedFloor, direction) {
+    if (lift1.moving && lift2.moving) return null;
+    if (!lift1.moving) return lift1;
+    if (!lift2.moving) return lift2;
+    let dist1 = Math.abs(lift1.position - requestedFloor);
+    let dist2 = Math.abs(lift2.position - requestedFloor);
+    return dist1 <= dist2 ? lift1 : lift2;
 }
 
-function moveLift(lift, floor) {
-    if (lift.id === 'lift1') lift1Moving = true;
-    if (lift.id === 'lift2') lift2Moving = true;
-    lift.classList.replace('closed', 'open');
-    lift.style.transform = `translateY(${-floor * floorHeight}px)`;
-    setTimeout(() => {
-        lift.classList.replace('open', 'closed');
-        if (lift.id === 'lift1') lift1Moving = false, lift1Position = floor;
-        if (lift.id === 'lift2') lift2Moving = false, lift2Position = floor;
-    }, 2500);
+
+
+
+function processQueue(lift) {
+    if (lift.moving || lift.queue.length === 0 || lift.doorsOpen) return;
+    moveLift(lift); 
 }
-createBuilding();
+
+
+
+function moveLift(lift) {
+    if (lift.moving || lift.queue.length === 0 || lift.doorsOpen) return;
+    
+    lift.moving = true;
+    
+    function processNextStop() {
+        if (lift.queue.length === 0) {
+            lift.moving = false;
+            return; 
+        }
+
+        let nextFloor = lift.queue.shift();
+        let liftElement = lift === lift1 ? document.getElementById('lift1') : document.getElementById('lift2');
+
+        lift.direction = lift.position < nextFloor ? 'up' : 'down';
+
+        console.log(`Moving ${liftElement.id} to Floor ${nextFloor}`);
+
+      
+        liftElement.style.transform = `translateY(${-nextFloor * floorHeight}px)`;
+
+        let travelTime = Math.abs(lift.position - nextFloor) * 1000;
+
+        setTimeout(() => {
+            console.log(`${liftElement.id} reached Floor ${nextFloor}, opening doors`);
+            liftElement.classList.replace('closed', 'open'); 
+            lift.doorsOpen = true;
+            
+            setTimeout(() => {
+                console.log(`${liftElement.id} closing doors`);
+                liftElement.classList.replace('open', 'closed'); 
+                lift.doorsOpen = false;
+                
+               
+                processNextStop();
+            }, 2000);
+        }, travelTime); 
+    }
+
+    processNextStop();
+}
+
+
+
